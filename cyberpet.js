@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
 
+const { questions } = require('./questions');
+
 let myPet;
 
 class Animal {
@@ -70,28 +72,7 @@ class Animal {
   }
 
   async eats() {
-    const { food } = await inquirer.prompt({
-      type: 'list',
-      name: 'food',
-      message: `What do you want to feed ${this.name}?`,
-      choices: [
-        {
-          key: 'a',
-          name: 'Snack hunger -2',
-          value: 'snack',
-        },
-        {
-          key: 'b',
-          name: 'Meal hunger -5',
-          value: 'meal',
-        },
-        {
-          key: 'c',
-          name: 'Treat hunger -10',
-          value: 'treat',
-        },
-      ],
-    });
+    const { food } = await inquirer.prompt(questions.eat);
 
     if (food === 'snack') this.hunger(-2);
     if (food === 'meal') this.hunger(-5);
@@ -104,10 +85,10 @@ class Animal {
     this._hunger += num;
 
     if (this._hunger < 0) this._hunger = 0;
-    if (this._hunger > 25) this.health(5);
+    if (this._hunger > 25) this.health(-5);
     if (this._hunger > 40) {
-      this.health(5);
-      this.boredom -= 5;
+      this.health(-5);
+      this.boredom(5);
     }
     return this.checkStats();
   }
@@ -116,10 +97,10 @@ class Animal {
     this._thirst += num;
 
     if (this._thirst < 0) this._thirst = 0;
-    if (this._thirst > 25) this.health(5);
+    if (this._thirst > 25) this.health(-5);
     if (this._thirst > 40) {
-      this.health(5);
-      this.boredom -= 5;
+      this.health(-5);
+      this.boredom(5);
     }
     return this.checkStats();
   }
@@ -142,28 +123,7 @@ class Cat extends Animal {
   }
 
   async play() {
-    const { play } = await inquirer.prompt({
-      type: 'list',
-      name: 'play',
-      message: 'Do you want to play with?',
-      choices: [
-        {
-          key: 'a',
-          name: 'Tin foil ball: boredom -2',
-          value: 'foil',
-        },
-        {
-          key: 'b',
-          name: 'wind up mouse: boredom -5',
-          value: 'mouse',
-        },
-        {
-          key: 'c',
-          name: 'Ball of wool: boredom -10',
-          value: 'wool',
-        },
-      ],
-    });
+    const { play } = await inquirer.prompt(questions.catPlay);
 
     if (play === 'foil') this.boredom(-2);
     if (play === 'mouse') this.boredom(-5);
@@ -176,28 +136,7 @@ class Dog extends Animal {
   }
 
   async play() {
-    const { play } = await inquirer.prompt({
-      type: 'list',
-      name: 'play',
-      message: 'Do you want to play with?',
-      choices: [
-        {
-          key: 'a',
-          name: 'Stick: boredom -2',
-          value: 'stick',
-        },
-        {
-          key: 'b',
-          name: 'Ball: boredom -5',
-          value: 'ball',
-        },
-        {
-          key: 'c',
-          name: 'Chase the postman: boredom -10',
-          value: 'chase',
-        },
-      ],
-    });
+    const { play } = await inquirer.prompt(questions.dogPlay);
 
     if (play === 'stick') this.boredom(-2);
     if (play === 'ball') this.boredom(-5);
@@ -209,23 +148,7 @@ class Rabbit extends Animal {
     super(name);
   }
   async play() {
-    const { play } = await inquirer.prompt({
-      type: 'list',
-      name: 'play',
-      message: 'Do you want to play with?',
-      choices: [
-        {
-          key: 'a',
-          name: 'Straw: boredom -2',
-          value: 'straw',
-        },
-        {
-          key: 'b',
-          name: 'Paper towels: boredom -5',
-          value: 'paper',
-        },
-      ],
-    });
+    const { play } = await inquirer.prompt(questions.rabbitPlay);
 
     if (play === 'straw') this.boredom(-2);
     if (play === 'paper') this.boredom(-5);
@@ -236,28 +159,7 @@ class Parrot extends Animal {
     super(name);
   }
   async play() {
-    const { play } = await inquirer.prompt({
-      type: 'list',
-      name: 'play',
-      message: 'Do you want to play with?',
-      choices: [
-        {
-          key: 'a',
-          name: 'Learn a word: boredom -2',
-          value: 'word',
-        },
-        {
-          key: 'b',
-          name: 'Learn a swear word: boredom -5',
-          value: 'swear',
-        },
-        {
-          key: 'c',
-          name: 'Swear at the mail man: boredom -10',
-          value: 'mail',
-        },
-      ],
-    });
+    const { play } = await inquirer.prompt(questions.parrotPlay);
 
     if (play === 'word') this.boredom(-2);
     if (play === 'swear') this.boredom(-5);
@@ -265,34 +167,7 @@ class Parrot extends Animal {
   }
 }
 async function start() {
-  const { typeOfPet } = await inquirer.prompt({
-    type: 'list',
-    name: 'typeOfPet',
-    message:
-      'What type of pet would you like? Please choose from the following options:',
-    choices: [
-      {
-        key: 'a',
-        name: 'Cat',
-        value: 'cat',
-      },
-      {
-        key: 'b',
-        name: 'Dog',
-        value: 'dog',
-      },
-      {
-        key: 'c',
-        name: 'Rabbit',
-        value: 'rabbit',
-      },
-      {
-        key: 'd',
-        name: 'Parrot',
-        value: 'parrot',
-      },
-    ],
-  });
+  const { typeOfPet } = await inquirer.prompt(questions.typeOfPet);
 
   const { petName } = await inquirer.prompt({
     type: 'input',
@@ -309,38 +184,18 @@ async function start() {
 }
 
 async function userChoice() {
-  myPet.boredom(2);
-  myPet.hunger(2);
-  myPet.thirst(2);
+  myPet.boredom(5);
+  myPet.hunger(5);
+  myPet.thirst(5);
   myPet.stats;
 
-  const { choice } = await inquirer.prompt({
-    type: 'list',
-    name: 'choice',
-    message: 'What would you like to do?',
-    choices: [
-      {
-        key: 'a',
-        name: 'Play with your pet',
-        value: 'play',
-      },
-      {
-        key: 'b',
-        name: 'Feed your pet',
-        value: 'feed',
-      },
-      {
-        key: 'c',
-        name: 'Give your pet a drink',
-        value: 'drink',
-      },
-      {
-        key: 'd',
-        name: "View your pet's status",
-        value: 'status',
-      },
-    ],
-  });
+  if (!myPet._isAlive) {
+    gameOver();
+    startAgain();
+    return;
+  }
+
+  const { choice } = await inquirer.prompt(questions.choice);
 
   if (choice === 'status') console.log(myPet.status);
   if (choice === 'play') await myPet.play();
@@ -349,29 +204,14 @@ async function userChoice() {
 
   myPet.checkStats();
 
-  if (!myPet._isAlive && myPet._boredom >= 50) {
-    gameOver('boredom');
-    startAgain();
-    return;
-  } else if (!myPet._isAlive && myPet._hunger >= 50) {
-    gameOver('hunger');
-    startAgain();
-    return;
-  } else {
-    userChoice();
-  }
+  userChoice();
 }
 
 start();
 
-function gameOver(scenario) {
-  if (scenario === 'boredom') {
-    console.log();
-  } else if (scenario === 'hunger') {
-    console.log(
-      `${myPet.name} has run away to join the circus because they were bored, please play with your pet more next time...`
-    );
-  }
+function gameOver() {
+  // TODO
+  console.log(myPet.status);
 }
 
 function startAgain() {
