@@ -21,6 +21,7 @@ const questions = {
       },
     ],
   },
+
   catPlay: {
     type: 'list',
     name: 'play',
@@ -43,6 +44,7 @@ const questions = {
       },
     ],
   },
+
   dogPlay: {
     type: 'list',
     name: 'play',
@@ -65,6 +67,7 @@ const questions = {
       },
     ],
   },
+
   rabbitPlay: {
     type: 'list',
     name: 'play',
@@ -82,6 +85,7 @@ const questions = {
       },
     ],
   },
+
   parrotPlay: {
     type: 'list',
     name: 'play',
@@ -104,6 +108,7 @@ const questions = {
       },
     ],
   },
+
   typeOfPet: {
     type: 'list',
     name: 'typeOfPet',
@@ -132,6 +137,7 @@ const questions = {
       },
     ],
   },
+
   choice: {
     type: 'list',
     name: 'choice',
@@ -156,6 +162,48 @@ const questions = {
         key: 'd',
         name: "View your pet's status",
         value: 'status',
+      },
+      {
+        key: 'e',
+        name: 'Quit the game',
+        value: 'quit',
+      },
+    ],
+  },
+
+  quitChoice: {
+    type: 'list',
+    name: 'quitChoice',
+    message:
+      'Are you sure you want to quit? This will mean your pet has to be returned to the Animal Shelter...',
+    choices: [
+      {
+        key: 'a',
+        name: "Yes, I'm sure.",
+        value: 'yes',
+      },
+      {
+        key: 'b',
+        name: "No, I'll play some more.",
+        value: 'no',
+      },
+    ],
+  },
+
+  playAgain: {
+    type: 'list',
+    name: 'playAgain',
+    message: 'Would you like to play again?',
+    choices: [
+      {
+        key: 'a',
+        name: 'Yes',
+        value: 'yes',
+      },
+      {
+        key: 'b',
+        name: 'No',
+        value: 'no',
       },
     ],
   },

@@ -56,8 +56,7 @@ class Animal {
   checkStats() {
     if (this._health <= 0) {
       this._isAlive = false;
-      this.status =
-        'Your pet has died from malnutrition, please make sure your next pet has plenty to eat and drink.';
+      this.status = `${this.name} has died from malnutrition, please make sure your next pet has plenty to eat and drink.`;
     }
     if (this._boredom >= 50) {
       this._isAlive = false;
@@ -68,6 +67,7 @@ class Animal {
   drinks() {
     this.thirst(-5);
     if (this.thirst < 0) this._thirst = 0;
+    console.log(`Aaaaah, ${this.name} is feeling refreshed.`);
     return this.thirst;
   }
 
@@ -117,6 +117,7 @@ class Animal {
     return this.checkStats();
   }
 }
+
 class Cat extends Animal {
   constructor(name) {
     super(name);
@@ -130,6 +131,7 @@ class Cat extends Animal {
     if (play === 'wool') this.boredom(-10);
   }
 }
+
 class Dog extends Animal {
   constructor(name) {
     super(name);
@@ -143,6 +145,7 @@ class Dog extends Animal {
     if (play === 'chase') this.boredom(-10);
   }
 }
+
 class Rabbit extends Animal {
   constructor(name) {
     super(name);
@@ -154,6 +157,7 @@ class Rabbit extends Animal {
     if (play === 'paper') this.boredom(-5);
   }
 }
+
 class Parrot extends Animal {
   constructor(name) {
     super(name);
@@ -166,6 +170,7 @@ class Parrot extends Animal {
     if (play === 'mail') this.boredom(-10);
   }
 }
+
 async function start() {
   const { typeOfPet } = await inquirer.prompt(questions.typeOfPet);
 
@@ -191,7 +196,6 @@ async function userChoice() {
 
   if (!myPet._isAlive) {
     gameOver();
-    startAgain();
     return;
   }
 
@@ -201,19 +205,29 @@ async function userChoice() {
   if (choice === 'play') await myPet.play();
   if (choice === 'feed') await myPet.eats();
   if (choice === 'drink') await myPet.drinks();
+  if (choice === 'quit') {
+    const quitChoice = await confirmQuit();
+    if (quitChoice) return;
+  }
 
   myPet.checkStats();
 
   userChoice();
 }
 
-start();
+async function confirmQuit() {
+  const { quitChoice } = await inquirer.prompt(questions.quitChoice);
 
-function gameOver() {
-  // TODO
+  if (quitChoice === 'yes') return true;
+  else return false;
+}
+
+async function gameOver() {
   console.log(myPet.status);
+  const { playAgain } = await inquirer.prompt(questions.playAgain);
+
+  if (playAgain === 'yes') start();
+  else return;
 }
 
-function startAgain() {
-  console.log('start again');
-}
+start();
