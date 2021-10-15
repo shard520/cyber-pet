@@ -6,17 +6,17 @@ const questions = {
     choices: [
       {
         key: 'a',
-        name: 'Snack hunger -2',
+        name: 'Snack: hunger -2',
         value: 'snack',
       },
       {
         key: 'b',
-        name: 'Meal hunger -5',
+        name: 'Meal: hunger -5',
         value: 'meal',
       },
       {
         key: 'c',
-        name: 'Treat hunger -10',
+        name: 'Treat: hunger -10',
         value: 'treat',
       },
     ],
